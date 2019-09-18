@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    @media only screen and (max-width:800px) {
+    /* For tablets: */
+    .main {
+      width: 80%;
+      padding: 0;
+    }
+    .right {
+      width: 100%;
+    }
+  }
+  @media only screen and (max-width:500px) {
+    /* For mobile phones: */
+    .menu, .main, .right {
+      width: 100%;
+    }
+  }
+  p{
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+  }
+    span{
+      font-size: 150%;
+      text-decoration-style: solid
+    }
+    input{
+      background-color:blanchedalmond;
+      text-align: center;
+      text-decoration-style: solid;
+      font-size: 150%;
+      border-radius: 40%;
+      border: 3px solid black;
+      padding: 10px;
+      position:inherit;
+    }
+    button{
+      background-color:blanchedalmond;
+      text-align: center;
+      text-decoration-style: solid;
+      font-size: 150%;
+      border-radius: 40%;
+      border: 3px solid black;
+      padding: 10px;
+      position:inherit;
+      
+    }
+    input:hover {
+      background-color:gold;
+    }
+    button:hover {
+      background-color:gold;
+    }
+    h1{
+      text-align: center;
+    }
+    div{
+      font-size: 150%;
+      text-align: center;
+      color:black;
+      text-decoration-style: solid;
+    }
+</style>
+
+<script>
+  var intervalo;
+  
+function tempo(op) {
+	if (op == 1) {
+		document.getElementById('parar').style.display = "block";
+		document.getElementById('comeca').style.display = "none";
+	}
+	var s = 1;
+	var m = 0;
+	var h = 0;
+	intervalo = window.setInterval(function() {
+		if (s == 60) { m++; s = 0; }
+		if (m == 60) { h++; s = 0; m = 0; }
+		if (h < 10) document.getElementById("hora").innerHTML = "0" + h + "h"; else document.getElementById("hora").innerHTML = h + "h";
+		if (s < 10) document.getElementById("segundo").innerHTML = "0" + s + "s"; else document.getElementById("segundo").innerHTML = s + "s";
+		if (m < 10) document.getElementById("minuto").innerHTML = "0" + m + "m"; else document.getElementById("minuto").innerHTML = m + "m";		
+		s++;
+	},1000);
+}
+
+function parar() {
+	window.clearInterval(intervalo);
+	document.getElementById('parar').style.display = "none";
+	document.getElementById('comeca').style.display = "block";
+}
+var count = 1;
+function volta() {
+  
+	document.getElementById('voltas').innerHTML += "Lap" + " " + count++ + ":  " + document.getElementById('hora').firstChild.data + "" + document.getElementById('minuto').firstChild.data + "" + document.getElementById('segundo').firstChild.data + "<br>";
+  
+}
+
+function limpa() {
+	document.getElementById('voltas').innerHTML = "";
+}
+window.onload=tempo;
+
+function startTime() {
+  var today = new Date();
+  var dia = today.getDay();
+  var mili = today.getMilliseconds();
+  var day = today.getDate();
+  var month = today.getMonth() + 1;
+  var year = today.getFullYear();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  var dias = ["Sunday","Monday", "Tuesday", "Wednesday", "Thurdsay", "Friday", "Saturday"]
+  document.getElementById('txt').innerHTML =
+  "It's" + "  " + dias[dia] + "  "+ h + ":" + m + ":" + s + " - " + day + "/" + month + "/" + year + "  ";
+  var t = setTimeout(startTime, 500);
+}
+
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  
+  return i;
+}
+
+</script>
+
+<p>Program developed by Matheus Schreiner Homrich da Silva<p>
+  <button onclick="startTime()">Live Time</button>
+  <hr>
+<h1>DATE & TIME</h1>
+<div id="txt"></div>
+<hr>
+
+<h1>CRONOMETER</h1>
+<div class="codigo">
+  <ul>
+    <span id="hora">00h</span><span id="minuto">00m</span><span id="segundo">00s</span><br>
+    <input type="button" value="Lap" onclick="volta();"></input>
+    <div id="parar"><input type="button" value="Stop" onclick="parar();"></input></div>
+    <div id="comeca" style="display:none;"><input type="button" value="Start" onclick="tempo(1);"></input></div>
+    <input type="button" value="Clear" onclick="limpa();"><br><br>
+    <div id="voltas"></div>
+  </ul>
+  </div>
+<hr>
+</body>
+</html>
